@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & Local Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# SQLite Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded Media / Static files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Build & Output
+dist/
+build/
+.vite/
+
+# OS Temp Files
+.DS_Store
+Thumbs.db
