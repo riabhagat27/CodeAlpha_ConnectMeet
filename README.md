@@ -1,169 +1,288 @@
-# ConnectMeet — Real-Time Video Conferencing & Team Collaboration Platform
+# ConnectMeet – Real-Time Communication App
 
-ConnectMeet is a full-stack real-time video conferencing, screen-sharing, collaborative whiteboard, and file sharing application built for **CodeAlpha Full Stack Development Internship — Task 4**.
+ConnectMeet is a full-stack real-time communication and collaboration platform developed as **CodeAlpha Full Stack Development Internship – Task 4**.
 
-It delivers a modern web application experience with multi-user WebRTC video calling, Socket.io signaling, JWT authentication, SQLite storage, and a dark-mode glassmorphism interface.
-
----
-
-## 🌟 Key Features
-
-- **User Authentication**: Secure user registration, password hashing (`bcryptjs`), stateless session authorization using JSON Web Tokens (`JWT`), and protected frontend/backend routes.
-- **Meeting Room Management**: Generate unique meeting codes (e.g. `ABC-123-XYZ`), create custom meeting titles, and join existing rooms via code or direct link.
-- **Multi-User WebRTC Video Calling**: Peer-to-peer mesh WebRTC video & audio streams powered by Socket.io signaling.
-- **Microphone & Camera Controls**: Toggle microphone audio tracks and camera video tracks with visual avatar fallback indicators.
-- **Screen Sharing**: Replace local video stream with real-time screen capture (`getDisplayMedia`) and auto-restore camera video upon stopping.
-- **Real-Time Synchronized Chat**: Instant in-meeting text chat with sender names, timestamps, unread badges, and auto-scroll.
-- **Collaborative Canvas Whiteboard**: Real-time HTML5 Canvas drawing board with freehand brush, color palette, brush size slider, eraser, clear board, and Socket.io stroke synchronization.
-- **File Sharing**: Multi-file upload (`Multer`) with security file type filtering (disallowing executables), file size limits (10MB), metadata stored in SQLite, real-time participant broadcast, and one-click downloads.
-- **Participant Panel**: Real-time view of room attendees with host badges, camera states, and microphone mute/unmute indicators.
-- **Host Controls**: Recognized Host badge and "End Meeting for All" capability.
+It provides users with a virtual meeting environment featuring video conferencing, screen sharing, real-time chat, collaborative whiteboarding, and file sharing.
 
 ---
 
-## 🛠 Technology Stack
+## 🚀 Live Demo
+
+- **Frontend**: [https://code-alpha-connect-meet.vercel.app/](https://code-alpha-connect-meet.vercel.app/)
+- **Backend API**: [https://codealpha-connectmeet.onrender.com/](https://codealpha-connectmeet.onrender.com/)
+
+The frontend is deployed on **Vercel** and the backend is deployed on **Render**.
+
+---
+
+## ✨ Features
+
+### 🔐 User Authentication
+- User registration and login
+- Secure password hashing using `bcryptjs`
+- JWT-based authentication
+- Protected routes and API endpoints
+
+### 🎥 Real-Time Video Conferencing
+- Multi-user video calling using WebRTC
+- Real-time signaling using Socket.io
+- Camera on/off toggle
+- Microphone mute/unmute toggle
+- Participant video display
+- Avatar fallback when camera is disabled
+
+### 🖥️ Screen Sharing
+- Share your screen with other participants
+- Start and stop screen sharing
+- Automatically restores the camera stream after screen sharing stops
+
+### 💬 Real-Time Chat
+- Instant messaging inside meetings
+- Sender names and timestamps
+- Real-time message delivery using Socket.io
+- Auto-scrolling chat
+- Unread message indication badge
+
+### 🎨 Collaborative Whiteboard
+- Real-time collaborative drawing
+- Freehand brush
+- Color selection palette
+- Adjustable brush size
+- Eraser tool
+- Clear whiteboard option
+- Real-time stroke synchronization across participants
+
+### 📁 File Sharing
+- Upload files during meetings
+- Real-time file availability notifications
+- Direct file download support
+- File metadata storage in SQLite
+- Maximum file-size validation (10MB)
+- Restriction of potentially executable files
+
+### 👥 Meeting & Participant Management
+- Create meeting rooms with unique generated codes
+- Join meetings using meeting IDs
+- Participant list with live status indicators
+- Host controls
+- End meeting for all participants
+
+### 🛡️ Security
+- JWT authentication
+- bcrypt password hashing
+- Protected API routes
+- Helmet security middleware
+- CORS configuration for allowed origins
+- Input and file-upload validation
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework**: React 18 & Vite
-- **Styling**: Tailwind CSS & Vanilla CSS Design Tokens (Glassmorphism Dark Theme)
-- **Icons**: Lucide React
-- **Routing**: React Router DOM v6
-- **Real-time & Signaling**: Socket.io-client
-- **Media API**: WebRTC (`RTCPeerConnection`, `getUserMedia`, `getDisplayMedia`)
-- **HTTP Client**: Axios with Authorization Bearer Interceptor
+- **React.js**
+- **Vite**
+- **JavaScript**
+- **Tailwind CSS**
+- **React Router**
+- **Axios**
+- **Socket.io Client**
+- **Lucide React**
+- **WebRTC**
+- **HTML5 Canvas**
 
 ### Backend
-- **Runtime**: Node.js & Express.js
-- **Database**: SQLite3 (`sqlite` & `sqlite3` drivers)
-- **Real-Time Engine**: Socket.io Server
-- **Authentication**: JSONWebToken (`jsonwebtoken`) & `bcryptjs`
-- **File Handling**: Multer middleware
-- **Security**: Cors, Helmet
+- **Node.js**
+- **Express.js**
+- **Socket.io**
+- **SQLite**
+- **JWT (`jsonwebtoken`)**
+- **bcryptjs**
+- **Multer**
+- **Helmet**
+- **CORS**
+- **dotenv**
 
 ---
 
-## 📁 Project Structure
+## 📂 Project Structure
 
 ```text
 CodeAlpha_ConnectMeet/
+│
 ├── backend/
 │   ├── config/
-│   │   └── database.js          # SQLite setup and table initialization
+│   │   └── database.js
 │   ├── controllers/
-│   │   ├── authController.js    # Register, login, getMe logic
-│   │   ├── fileController.js    # Upload, list, download file logic
-│   │   └── meetingController.js # Create, get, delete meeting rooms
+│   │   ├── authController.js
+│   │   ├── fileController.js
+│   │   └── meetingController.js
 │   ├── middleware/
-│   │   ├── authMiddleware.js    # JWT authentication guard
-│   │   └── uploadMiddleware.js  # Multer file limits & safety filter
+│   │   ├── authMiddleware.js
+│   │   └── uploadMiddleware.js
 │   ├── routes/
-│   │   ├── authRoutes.js        # Auth REST endpoints
-│   │   ├── fileRoutes.js        # File upload & download endpoints
-│   │   └── meetingRoutes.js     # Meeting REST endpoints
+│   │   ├── authRoutes.js
+│   │   ├── fileRoutes.js
+│   │   └── meetingRoutes.js
 │   ├── socket/
-│   │   └── socketHandler.js     # Socket.io WebRTC signaling & real-time events
-│   ├── uploads/                 # Storage for uploaded meeting files
-│   ├── server.js                # Express & Socket.io entry point
-│   ├── .env.example             # Backend environment template
+│   │   └── socketHandler.js
+│   ├── uploads/
+│   ├── server.js
+│   ├── .env.example
 │   └── package.json
+│
 ├── frontend/
 │   ├── src/
-│   │   ├── components/          # Reusable UI components (VideoGrid, Chat, Whiteboard, etc.)
-│   │   ├── context/             # AuthContext & SocketContext state providers
-│   │   ├── hooks/               # Custom useWebRTC hook
-│   │   ├── pages/               # Page views (Login, Register, Dashboard, MeetingRoom, Profile)
-│   │   ├── services/            # Axios API service
-│   │   ├── App.jsx              # React router configuration
-│   │   ├── index.css            # Custom CSS & Tailwind directives
-│   │   └── main.jsx             # React DOM entry
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
 │   ├── index.html
 │   ├── vite.config.js
-│   ├── .env.example             # Frontend environment template
+│   ├── tailwind.config.js
+│   ├── .env.example
 │   └── package.json
-├── README.md
-└── .gitignore
+│
+├── .gitignore
+└── README.md
 ```
 
 ---
 
-## ⚙️ Environment Variables Setup
+## ⚙️ Environment Variables
 
-### Backend Environment (`backend/.env`)
-Create `backend/.env` based on `backend/.env.example`:
+### Backend
+Create a `.env` file inside the `backend` folder:
 ```env
 PORT=5000
-JWT_SECRET=connectmeet_super_secret_jwt_key_2026_codealpha
+JWT_SECRET=your_secure_jwt_secret
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
 ```
+*For production, `CLIENT_URL` should contain the deployed frontend URL.*
 
-### Frontend Environment (`frontend/.env`)
-Create `frontend/.env` based on `frontend/.env.example`:
+### Frontend
+Create a `.env` file inside the `frontend` folder:
 ```env
 VITE_API_URL=http://localhost:5000/api
 VITE_SOCKET_URL=http://localhost:5000
 ```
+*For production, these should point to the deployed Render backend URL.*
+
+*Never commit actual `.env` files or secrets to GitHub.*
 
 ---
 
-## 🚀 Running Locally
+## 💻 Local Installation
 
-### 1. Clone & Setup Backend
+### 1. Clone the repository
+```bash
+git clone https://github.com/riabhagat27/CodeAlpha_ConnectMeet.git
+cd CodeAlpha_ConnectMeet
+```
+
+### 2. Install backend dependencies & start server
 ```bash
 cd backend
 npm install
 npm start
 ```
-The backend server will run on `http://localhost:5000` and automatically create `connectmeet.db`.
 
-### 2. Setup Frontend
-In a separate terminal window:
+### 3. Install frontend dependencies & start dev server
+Open another terminal:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Open `http://localhost:5173` in your browser.
+
+The application will normally be available at `http://localhost:5173` (or `http://localhost:5174`).
 
 ---
 
-## 💡 WebRTC & Socket.io Signaling Architecture
+## 🌐 Deployment
 
-1. **Signaling Flow**:
-   - Participant A joins room `ABC-123-XYZ`. Socket sends `join-room`.
-   - Socket server adds Participant A to active room registry and broadcasts `user-joined`.
-   - Participant B joins. Server sends `all-participants` to B.
-   - Participant B creates an `RTCPeerConnection` for A, calls `createOffer()`, and emits `webrtc-offer` to A via Socket.io.
-   - Participant A receives `webrtc-offer`, calls `setRemoteDescription()`, creates `createAnswer()`, and returns `webrtc-answer` to B.
-   - Both peers exchange ICE candidates (`webrtc-ice-candidate`) until P2P direct media stream is established.
-   - Socket server only relays SDP signals and never handles raw video data!
+ConnectMeet is configured for deployment using:
+- **Frontend**: Vercel
+- **Backend**: Render
 
-2. **Testing Multi-User Locally**:
-   - Open standard browser window -> Register Account 1 (e.g. `Ria`) -> Create Meeting.
-   - Open Incognito / Private window -> Register Account 2 (e.g. `Aarav`) -> Join Meeting Code.
-   - Both windows will show live WebRTC video streams, interactive whiteboard, chat, and files!
+### Production URLs
+- **Frontend**: [https://code-alpha-connect-meet.vercel.app/](https://code-alpha-connect-meet.vercel.app/)
+- **Backend**: [https://codealpha-connectmeet.onrender.com/](https://codealpha-connectmeet.onrender.com/)
+
+The frontend communicates with the backend through REST APIs and Socket.io.
 
 ---
 
-## 🔒 Security Implementation
+## 🔄 Real-Time Architecture
 
-- **Bcrypt Password Hashing**: User passwords are never stored in plain text.
-- **JWT Authorization**: Sensitive REST APIs require a valid Bearer JWT header.
-- **File Upload Security**: Multer enforces 10MB file size ceiling and blocks executable extensions (`.exe`, `.bat`, `.cmd`, `.sh`, `.msi`).
-- **Input Validation**: Sanitizes emails and mandatory input fields across registration and meeting lookup.
+```text
+               ConnectMeet
+         ┌───────────┴───────────┐
+         │                       │
+     Frontend                 Backend
+      Vercel                  Render
+         │                       │
+         │       REST API        │
+         ├──────────────────────>│
+         │                       │
+         │       Socket.io       │
+         ├──────────────────────>│
+         │                       │
+         │<──── WebRTC signaling ┤
+         │                       │
+         └─────── WebRTC ────────┘
+```
+
+WebRTC handles peer-to-peer media communication, while Socket.io is used for signaling and real-time collaboration features such as chat and whiteboard synchronization.
 
 ---
 
-## 🚀 Deployment Guide
+## 🎯 CodeAlpha Internship Task
 
-- **Frontend**: Ready to deploy on **Vercel** or **Netlify** (set `VITE_API_URL` and `VITE_SOCKET_URL` build variables).
-- **Backend**: Ready to deploy on **Render** or **Railway** (set `PORT`, `JWT_SECRET`, `CLIENT_URL` environment variables).
+**Task**: Task 4 – Real-Time Communication App
+
+The project demonstrates:
+- Real-time communication
+- WebRTC video conferencing
+- Screen sharing
+- Socket.io communication
+- File sharing
+- Collaborative whiteboard
+- Authentication
+- Secure backend APIs
+- Full-stack application development
 
 ---
 
-## 🔮 Future Improvements
+## 👩‍💻 Developer
 
-- Implementation of TURN servers for restrictive NAT networks.
-- Selective Forwarding Unit (SFU) architecture (e.g. Mediasoup or LiveKit) for scaling to 50+ participants per room.
-- Cloud object storage (AWS S3 or Cloudinary) for file attachments.
-- Session recording and AI transcription.
+**Ria Bhagat**  
+B.Tech Computer Engineering  
+AISSMS Institute of Information Technology, Pune  
+
+- **GitHub**: [https://github.com/riabhagat27](https://github.com/riabhagat27)  
+- **Project Repository**: [https://github.com/riabhagat27/CodeAlpha_ConnectMeet](https://github.com/riabhagat27/CodeAlpha_ConnectMeet)  
+
+---
+
+## 📌 Future Improvements
+
+- Persistent cloud database
+- Cloud-based file storage
+- TURN server support for improved WebRTC connectivity
+- Meeting scheduling
+- Email notifications
+- Advanced host controls
+- Meeting recording
+- Production-grade monitoring and logging
+
+---
+
+## 📄 License
+
+This project was developed for educational and internship purposes as part of the **CodeAlpha Full Stack Development Internship**.
