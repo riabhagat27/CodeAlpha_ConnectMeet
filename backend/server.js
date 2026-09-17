@@ -16,11 +16,14 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+const rawClientUrl = process.env.CLIENT_URL || '';
+const cleanClientUrl = rawClientUrl.replace(/\/+$/, '');
 
 // Dynamic allowed origins for development & production
 const allowedOrigins = Array.from(new Set([
-  CLIENT_URL,
+  'https://code-alpha-connect-meet.vercel.app',
+  rawClientUrl,
+  cleanClientUrl,
   'http://localhost:5173',
   'http://localhost:5174',
   'http://127.0.0.1:5173',
